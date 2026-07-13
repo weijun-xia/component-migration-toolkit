@@ -1,0 +1,34 @@
+{
+  "name": "component-migration-toolkit",
+  "version": "2.0.0",
+  "description": "Toolkit for migrating a Vue app from one component library to another: a static contract gate (catches wrong / missing prop mappings) plus a runtime semantic-diff harness that uses the old build as an oracle to catch behavioral regressions.",
+  "type": "module",
+  "license": "MIT",
+  "keywords": [
+    "vue",
+    "migration",
+    "component-library",
+    "codemod",
+    "ast",
+    "playwright",
+    "accessibility",
+    "regression-testing",
+    "element-plus"
+  ],
+  "scripts": {
+    "gate": "node gate.mjs",
+    "gate:selftest": "node gate.mjs __selftest__",
+    "scan": "node scan.mjs",
+    "extract-components": "node extract-components.mjs",
+    "extract-tokens": "node extract-tokens.mjs",
+    "capture": "node capture-semantic.mjs",
+    "diff": "node diff-semantic.mjs",
+    "explore": "node explore.mjs",
+    "capture-matrix": "node capture-matrix.mjs",
+    "diff-matrix": "node diff-matrix.mjs"
+  },
+  "devDependencies": {
+    "@vue/compiler-sfc": "^3.5.0",
+    "playwright": "^1.48.0"
+  }
+}

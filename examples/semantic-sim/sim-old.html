@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8" />
+  <title>OLD · 模拟 Angular + DevUI</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    .devui-toolbar { margin: 10px 0; display: flex; gap: 8px; }
+    .hidden { display: none; }
+    .devui-dialog { border: 1px solid #ccc; padding: 16px; margin-top: 16px; }
+    table { border-collapse: collapse; } th, td { border: 1px solid #ddd; padding: 6px 10px; }
+  </style>
+</head>
+<body>
+  <!-- 模拟"旧版"：DevUI 风格类名 + 多层 div 包裹 -->
+  <div class="devui-app-shell">
+    <section id="login" class="devui-panel devui-login">
+      <h2>登录</h2>
+      <div class="devui-form"><div class="devui-form-item"><input class="devui-input" aria-label="用户名" placeholder="用户名"></div>
+      <div class="devui-form-item"><input class="devui-input" type="password" aria-label="密码" placeholder="密码"></div></div>
+      <div class="devui-toolbar"><button class="devui-btn devui-btn-primary" onclick="doLogin()">登录</button></div>
+    </section>
+
+    <section id="main" class="devui-panel devui-main hidden">
+      <h2>文章管理</h2>
+      <div class="devui-toolbar">
+        <button class="devui-btn">新增</button>
+        <input class="devui-input" aria-label="标题" placeholder="标题">
+        <button class="devui-btn" onclick="doSearch()">搜索</button>
+      </div>
+      <div class="devui-table-wrap">
+        <table class="devui-table">
+          <thead><tr><th>ID</th><th>标题</th><th>状态</th><th>操作</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td>快速上手</td><td>已发布</td><td><button class="devui-btn devui-btn-sm" onclick="doView(1)">查看</button></td></tr>
+            <tr><td>2</td><td>迁移指南</td><td>草稿</td><td><button class="devui-btn devui-btn-sm" onclick="doView(2)">查看</button></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div id="dialog" class="devui-dialog hidden" role="dialog" aria-label="文章详情">
+        <h3>文章详情</h3>
+        <div class="devui-form-item"><input class="devui-input" aria-label="详情标题"></div>
+        <div class="devui-toolbar">
+          <button class="devui-btn devui-btn-primary">保存</button>
+          <button class="devui-btn" onclick="closeDialog()">取消</button>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    function doLogin() { fetch('/api/login', { method: 'POST' }).catch(() => {}); document.getElementById('login').classList.add('hidden'); document.getElementById('main').classList.remove('hidden'); }
+    function doSearch() { fetch('/api/list?title=').catch(() => {}); }
+    function doView(id) { fetch('/api/detail?id=' + id).catch(() => {}); document.getElementById('dialog').classList.remove('hidden'); }
+    function closeDialog() { document.getElementById('dialog').classList.add('hidden'); }
+  </script>
+</body>
+</html>

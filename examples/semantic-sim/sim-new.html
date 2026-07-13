@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8" />
+  <title>NEW · 模拟 Vue3 + 目标组件库</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    .ui-bar { margin: 10px 0; display: flex; gap: 8px; }
+    .hidden { display: none; }
+    .ui-dialog { border: 1px solid #dcdfe6; border-radius: 6px; padding: 18px; margin-top: 16px; }
+    table { border-collapse: collapse; } th, td { border: 1px solid #e4e7ed; padding: 6px 10px; }
+  </style>
+</head>
+<body>
+  <!-- 模拟"新版"：目标库风格类名 + 不同的嵌套结构（DOM 与旧版明显不同，但语义应一致） -->
+  <div id="app" class="ui-app">
+    <div id="login" class="ui-card ui-login">
+      <h2>登录</h2>
+      <div class="ui-field"><input class="ui-input__inner" aria-label="用户名" placeholder="用户名"></div>
+      <div class="ui-field"><input class="ui-input__inner" type="password" aria-label="密码" placeholder="密码"></div>
+      <div class="ui-bar"><button class="ui-button is-primary" onclick="doLogin()">登录</button></div>
+    </div>
+
+    <div id="main" class="ui-container hidden">
+      <h2>文章管理</h2>
+      <div class="ui-bar">
+        <button class="ui-button">新增</button>
+        <span class="ui-input"><input class="ui-input__inner" aria-label="标题" placeholder="标题"></span>
+        <button class="ui-button" onclick="doSearch()">搜索</button>
+      </div>
+      <div class="ui-table">
+        <table>
+          <!-- 注入缺陷①：列名 状态 → state（标签漂移） -->
+          <thead><tr><th>ID</th><th>标题</th><th>state</th><th>操作</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td>快速上手</td><td>已发布</td><td><button class="ui-button is-small" onclick="doView(1)">查看</button></td></tr>
+            <tr><td>2</td><td>迁移指南</td><td>草稿</td><td><button class="ui-button is-small" onclick="doView(2)">查看</button></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div id="dialog" class="ui-dialog hidden" role="dialog" aria-label="文章详情">
+        <h3>文章详情</h3>
+        <div class="ui-field"><input class="ui-input__inner" aria-label="详情标题"></div>
+        <div class="ui-bar">
+          <button class="ui-button is-primary">保存</button>
+          <!-- 注入缺陷②：缺少「取消」按钮 -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function doLogin() { fetch('/api/login', { method: 'POST' }).catch(() => {}); document.getElementById('login').classList.add('hidden'); document.getElementById('main').classList.remove('hidden'); }
+    function doSearch() { fetch('/api/list?title=').catch(() => {}); }
+    // 注入缺陷③：漏发 /api/detail 请求；注入缺陷④：控制台报错
+    function doView(id) { console.error('[bug] 详情数据未加载'); document.getElementById('dialog').classList.remove('hidden'); }
+    function closeDialog() { document.getElementById('dialog').classList.add('hidden'); }
+  </script>
+</body>
+</html>

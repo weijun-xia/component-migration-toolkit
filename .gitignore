@@ -1,0 +1,27 @@
+# dependencies
+node_modules/
+
+# generated reports & data (regenerate by running the tools)
+report-gate.md
+report-semantic.md
+report-matrix.md
+report-matrix.json
+scan-report.md
+scan-manifest.json
+old.json
+new.json
+matrix-before.json
+matrix-after.json
+artifacts/
+
+# bring your own target-library CSS here (used by extract-tokens.mjs)
+vendor/
+
+# NOTE: target-components.mjs and design-tokens.generated.json are committed
+# as neutral EXAMPLES on purpose. Regenerate them locally with the extractors;
+# your local edits will simply show up as diffs.
+
+# OS / editor
+.DS_Store
+Thumbs.db
+*.log
