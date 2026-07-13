@@ -3,6 +3,8 @@
 [![CI](https://github.com/weijun-xia/component-migration-toolkit/actions/workflows/ci.yml/badge.svg)](https://github.com/weijun-xia/component-migration-toolkit/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
+**English** | [简体中文](README.zh-CN.md)
+
 Migrate a Vue app from one component library to another (e.g. **Angular + DevUI / Element Plus → Vue 3 + your UI library**) with two complementary safety nets:
 
 | Layer | Tool | Files | What it does | Cost |
@@ -150,20 +152,3 @@ Issues and PRs welcome — see [CONTRIBUTING.md](CONTRIBUTING.md). Please keep t
 ## License
 
 [MIT](LICENSE)
-
----
-
-## 中文速览
-
-把 Vue 应用从一套组件库迁到另一套的双保险工具集：**静态契约闸门**（改代码前扫 `.vue`，按契约挑出错换/漏配/真缺）+ **运行时语义差异对比**（旧版当基准，比 a11y 树/网络/交互/控制台，抓跨框架行为回归）。另含**迁移前清单**（`scan.mjs`）与**视觉状态矩阵**（`*-matrix.mjs`）。
-
-引擎与具体库无关；库相关的东西集中在 `migrate.config.mjs` / `contracts.mjs` / `target-components.mjs` / `design-tokens.generated.json`，仓库内是 `ui-` 前缀的**通用示例**。
-
-```bash
-npm i
-node gate.mjs __selftest__                       # 自测：应 2 错 2 警
-node extract-components.mjs "node_modules/@scope/your-ui"   # 用你的库生成真实清单
-node gate.mjs "你的 src 路径"                      # 静态闸门 → report-gate.md
-```
-
-上手细节见 `docs/contract-gate.md`、`docs/semantic-diff.md`。
