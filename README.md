@@ -5,7 +5,27 @@
 
 **English** | [简体中文](README.zh-CN.md)
 
-Migrate a Vue app from one component library to another (e.g. **Angular + DevUI / Element Plus → Vue 3 + your UI library**) with two complementary safety nets:
+Migrate a Vue app from one component library to another (e.g. **Angular + DevUI / Element Plus → Vue 3 + your UI library**) — safely.
+
+## Background
+
+This toolkit grew out of a real **cross-framework rewrite** — porting a legacy **Angular + DevUI** app to **Vue 3** on a different component library. "Find-and-replace the tags" plus AI / codemod mapping suggestions kept producing subtle breakages that only surfaced in production. These tools are the guardrails we wish we'd had, distilled from the bugs that actually bit us.
+
+## The problems it solves
+
+Component-library migrations fail in two sneaky ways that plain find-replace and name-based mapping tools miss:
+
+1. **Right name, wrong usage** — the tag maps fine, but a required prop / data contract doesn't, and nobody catches it before the code changes. Two classics:
+   - a **tree renders blank** because the new library reads `label` / `children` through a different prop (`:props`) than the old one;
+   - a **category-search gets swapped for an advanced-search**, whose required prop differs, so the UI renders garbled.
+   These have a *static signature* → the **contract gate** stops them at edit time, before you even run the app.
+2. **Right component ≠ same behavior** — even with every tag mapped correctly, the new build can still regress: a button that no longer responds, a dropped `/api` call, a missing feature, a data-specific crash. These have *no static signature* → only diffing the running new build against the old one (as the oracle) catches them → the **semantic diff**.
+
+Why not just trust a mapping tool or an AI suggestion? Name-based mapping **doesn't understand semantic equivalence, can't see your runtime data, and never verifies its own output** — it will confidently point you at a component that doesn't exist, or the wrong equivalent. This toolkit swaps *"trust the mapping"* for *"verify with deterministic checks + the old build as ground truth."*
+
+## What it gives you
+
+Two complementary safety nets:
 
 | Layer | Tool | Files | What it does | Cost |
 |---|---|---|---|---|
