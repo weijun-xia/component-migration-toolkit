@@ -142,7 +142,7 @@ Runtime tools default to Playwright's bundled Chromium. To use a system browser 
 
 ## License
 
-[MIT](LICENSE) — remember to fill in the copyright holder.
+[MIT](LICENSE)
 
 ---
 
