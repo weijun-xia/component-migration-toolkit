@@ -1,0 +1,34 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  selftest:
+    name: Self-test (static tools)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install deps (skip Playwright browser download)
+        run: npm install
+        env:
+          PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 1
+
+      - name: Contract gate self-test (expects 2 errors + 2 warnings)
+        run: |
+          out="$(node gate.mjs __selftest__)"
+          echo "$out"
+          echo "$out" | grep -q "契约自检 ✓" || { echo "::error::contract self-check line missing"; exit 1; }
+          echo "$out" | grep -q "✗ 错误 2"   || { echo "::error::expected exactly 2 errors"; exit 1; }
+          echo "$out" | grep -q "⚠ 警告 2"   || { echo "::error::expected exactly 2 warnings"; exit 1; }
+
+      - name: Scan inventory self-test
+        run: node scan.mjs __selftest__

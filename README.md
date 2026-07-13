@@ -1,5 +1,8 @@
 # component-migration-toolkit
 
+[![CI](https://github.com/weijun-xia/component-migration-toolkit/actions/workflows/ci.yml/badge.svg)](https://github.com/weijun-xia/component-migration-toolkit/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+
 Migrate a Vue app from one component library to another (e.g. **Angular + DevUI / Element Plus → Vue 3 + your UI library**) with two complementary safety nets:
 
 | Layer | Tool | Files | What it does | Cost |
@@ -139,6 +142,10 @@ Runtime tools default to Playwright's bundled Chromium. To use a system browser 
 - Prefer `node gate.mjs "path"` over `npm run gate -- path` (some shells drop the `--` args and scan the current directory).
 - Semantic-diff network checks need `http(s)` (a `file://` page can't observe `/api` calls).
 - `extract-tokens.mjs` reads a target-library CSS from `vendor/target-ui.css` (bring your own; `vendor/` is git-ignored).
+
+## Contributing
+
+Issues and PRs welcome — see [CONTRIBUTING.md](CONTRIBUTING.md). Please keep the committed data files generic (no private component-library data).
 
 ## License
 
